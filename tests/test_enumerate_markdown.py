@@ -33,5 +33,5 @@ class EnumerateMarkdownTest(unittest.TestCase):
         headers_finder = MyHeadersFinder(headers)
         text = "ABCDE"
         enumerated_text = enumerate_markdown.enumerate_headers(text, headers_finder)
-        expected_enumerated = "1 AB1.1 CD2 E"
+        expected_enumerated = " 1. AB 1.1 CD 2. E"
         self.assertEqual(expected_enumerated, enumerated_text)

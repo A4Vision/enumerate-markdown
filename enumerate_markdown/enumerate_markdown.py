@@ -4,7 +4,10 @@ from enumerate_markdown import headers_finder
 
 class EnumerationFormatter(object):
     def format(self, full_index):
-        return '.'.join(map(str, full_index)) + ' '
+        if len(full_index) == 1:
+            return ' ' + str(full_index[0]) + '.' + ' '
+
+        return ' ' + '.'.join(map(str, full_index)) + ' '
 
 
 def enumerate_headers(text, finder=headers_finder.HeadersFinder(), enumeration_formatter=EnumerationFormatter()):
