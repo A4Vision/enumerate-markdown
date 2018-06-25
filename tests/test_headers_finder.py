@@ -5,8 +5,7 @@ from enumerate_markdown import headers_finder, header
 class HeadersFinderTest(unittest.TestCase):
 
     def test_find_headers(self):
-        text = """
-        ## Header 1 (level=1)
+        text = """## Header 1 (level=1)
         
  Header 2 (level=2)
         ----

@@ -1,4 +1,5 @@
 from enumerate_markdown import enumerator
+from enumerate_markdown import headers_finder
 
 
 class EnumerationFormatter(object):
@@ -6,9 +7,9 @@ class EnumerationFormatter(object):
         return '.'.join(map(str, full_index)) + ' '
 
 
-def enumerate_headers(text, headers_finder, enumeration_formatter=EnumerationFormatter()):
+def enumerate_headers(text, finder=headers_finder.HeadersFinder(), enumeration_formatter=EnumerationFormatter()):
     e = enumerator.Enumerator()
-    headers = headers_finder.find_headers(text)
+    headers = finder.find_headers(text)
     prev_offset = 0
     res = ''
     for header in headers:

@@ -33,11 +33,11 @@ class HeadersFinder(object):
     L_HEADING_PATTERN = re.compile('^^([\t ]*\n)[ \t]*[^\n]*[^\n \t][^\n]*\n[\t ]*(=|-)+[\t ]*\n')
 
     def find_headers(self, text):
-        text = text + '\n'
+        text = '\n' + text + '\n'
         headers = []
         chars_remover = CharsRemover(text)
         while chars_remover.has_chars():
-            current_header = self._get_header(chars_remover.current_text(), chars_remover.get_offset())
+            current_header = self._get_header(chars_remover.current_text(), chars_remover.get_offset() - 1)
             if current_header is None:
                 chars_remover.remove_first_line()
             else:
@@ -65,18 +65,3 @@ class HeadersFinder(object):
             return header.Header(base_offset + header_offset, level)
 
 
-text = """
-        ## Header 1 (level=1)
-
- Header 2 (level=2)
-        ----
-
- Header 3 (level=1)
-        =
-
-        #### Header 4 (level=4)
-
-        not a header #
-        """
-
-print(HeadersFinder.HEADING_PATTERN.match(text))
