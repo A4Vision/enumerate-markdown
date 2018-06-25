@@ -31,7 +31,15 @@ class EnumerateMarkdownTest(unittest.TestCase):
     def test_enumerate_headers(self):
         headers = [header.Header(0, 1), header.Header(2, 2), header.Header(4, 1)]
         headers_finder = MyHeadersFinder(headers)
-        text = "ABCDE"
+        text = "ABCD 5. E"
         enumerated_text = enumerate_markdown.enumerate_headers(text, headers_finder)
         expected_enumerated = " 1. AB 1.1 CD 2. E"
         self.assertEqual(expected_enumerated, enumerated_text)
+
+    def test_enumeration_formatter(self):
+        formatter = enumerate_markdown.EnumerationFormatter()
+        for index in [(1,), (1, 1), (2,), (1, 2, 3)]:
+            formatted = formatter.format(index)
+            text = formatted + 'some text'
+            length = formatter.old_enumeration_length(text)
+            self.assertEqual(len(formatted), length)
