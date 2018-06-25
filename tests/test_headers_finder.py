@@ -16,13 +16,15 @@ class HeadersFinderTest(unittest.TestCase):
         #### Header 4 (level=4)
         
         not a header #
-        # not a header
+        # Header 5
         
         not a header
         -- because of this !
+
+####
+####
         
-        
- Header 5
+ Header 6
         ---"""
 
         finder = headers_finder.HeadersFinder()
@@ -31,8 +33,9 @@ class HeadersFinderTest(unittest.TestCase):
         header2 = header.Header(text.find(" Header 2"), 2)
         header3 = header.Header(text.find(" Header 3"), 1)
         header4 = header.Header(text.find(" Header 4"), 4)
-        header5 = header.Header(text.find(" Header 5"), 2)
-        expected_headers = [header1, header2, header3, header4, header5]
+        header5 = header.Header(text.find(" Header 5"), 1)
+        header6 = header.Header(text.find(" Header 6"), 2)
+        expected_headers = [header1, header2, header3, header4, header5, header6]
 
         self.assertListEqual(expected_headers, headers)
 

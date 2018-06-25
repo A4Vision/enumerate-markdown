@@ -29,7 +29,7 @@ class CharsRemover(object):
 
 
 class HeadersFinder(object):
-    HEADING_PATTERN   = re.compile('^([\t ]*\n[\t ]*(#{1,6}))[\t ]*\\S')
+    HEADING_PATTERN   = re.compile('^([\t ]*(#{1,6}))[^#\n][\t ]*\\S')
     L_HEADING_PATTERN = re.compile('^^([\t ]*\n)[ \t]*[^\n]*[^\n \t][^\n]*\n[\t ]*(=|-)+[\t ]*\n')
 
     def find_headers(self, text):
@@ -42,7 +42,6 @@ class HeadersFinder(object):
                 chars_remover.remove_first_line()
             else:
                 headers.append(current_header)
-                chars_remover.remove_first_line()
                 chars_remover.remove_first_line()
         return headers
 
