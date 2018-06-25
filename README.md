@@ -4,10 +4,14 @@ Enumerate headers in markdown file.
 ## 1.1 Usage:
 Run from the command line
 ```bash
-markdown-enum someFile.md
+markdown-enum inputFile.md outputFile.md
 ```
-The script will parse someFile.md, add an enumeration to each header and output
-the result to a new file named `someFile_enum.md`.
+The script will parse `someFile.md`, add an enumeration to each header and output
+the result to the file named `outputFile.md`.
+All previously existing headers will be overriden. So a useful scenario is
+```bash
+markdown-enum inputFile.md inputFile.md
+```
 
 ## 1.2 Install:
 Requires python 3.
