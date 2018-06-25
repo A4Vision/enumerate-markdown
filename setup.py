@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="enumerate-markdown",
-    version="0.0.6",
+    version="0.0.7",
     author="Assaf Yifrach",
     author_email="asafyi@gmail.com",
     description="Enumerates your markdown headers, inside the md file",
@@ -18,4 +18,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),
+    scripts=['bin/markdown-enum'],
 )
