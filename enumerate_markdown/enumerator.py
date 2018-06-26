@@ -25,3 +25,19 @@ class Enumerator(object):
 
     def get_index(self):
         return self._full_index
+
+
+class EnumeratorWithMinimalLevel(object):
+    def __init__(self, minimal_level):
+        assert minimal_level > 0
+        self._minimal_level = minimal_level
+        self._enumeartor = Enumerator()
+
+    def add_enumerate(self, level):
+        if level < self._minimal_level:
+            self._enumeartor = Enumerator()
+        else:
+            self._enumeartor.add_enumerate(level + 1 - self._minimal_level)
+
+    def get_index(self):
+        return self._enumeartor.get_index()

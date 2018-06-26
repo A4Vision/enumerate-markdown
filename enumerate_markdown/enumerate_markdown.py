@@ -21,8 +21,9 @@ class EnumerationFormatter(object):
             return 0
 
 
-def enumerate_headers(text, finder=headers_finder.HeadersFinder(), enumeration_formatter=EnumerationFormatter()):
-    e = enumerator.Enumerator()
+def enumerate_headers(text, finder=headers_finder.HeadersFinder(), enumeration_formatter=EnumerationFormatter(),
+                      minimal_level=1):
+    e = enumerator.EnumeratorWithMinimalLevel(minimal_level)
     headers = finder.find_headers(text)
     prev_offset = 0
     res = ''
