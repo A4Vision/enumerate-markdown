@@ -29,8 +29,13 @@ def enumerate_headers(text, finder=headers_finder.HeadersFinder(), enumeration_f
     for header in headers:
         assert header.offset() >= prev_offset
         header.advance_enumerator(e)
-        res += text[prev_offset: header.offset()] + enumeration_formatter.format(e.get_index())
+        stripped_text = lstrip_text(text[prev_offset: header.offset()])
+        res += stripped_text + enumeration_formatter.format(e.get_index())
         length = enumeration_formatter.old_enumeration_length(text[header.offset():])
         prev_offset = header.offset() + length
-    res += text[prev_offset:]
+    res += lstrip_text(text[prev_offset:])
     return res
+
+
+def lstrip_text(text):
+    return text.lstrip(' \t')
