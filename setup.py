@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="enumerate-markdown",
-    version="0.0.9",
+    version="0.1.0",
     author="Assaf Yifrach",
     author_email="asafyi@gmail.com",
     description="Enumerates your markdown headers, inside the md file",

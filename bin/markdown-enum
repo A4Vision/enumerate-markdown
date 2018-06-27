@@ -12,7 +12,7 @@ def main():
 
     with open(input_filename, "r") as f_in:
         enumerated_content = enumerate_markdown.enumerate_headers(f_in.read(), minimal_level=minimal_level)
-    if len(sys.argv) == 3:
+    if len(sys.argv) == 4:
         output_filename = sys.argv[3]
         with open(output_filename, "w") as f_out:
             f_out.write(enumerated_content)
