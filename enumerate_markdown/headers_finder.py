@@ -1,4 +1,9 @@
+import functools
 import re
+
+import mistune
+import mistune.block_parser
+
 from enumerate_markdown import header
 
 
@@ -29,38 +34,33 @@ class CharsRemover(object):
 
 
 class HeadersFinder(object):
-    HEADING_PATTERN   = re.compile('^([\t ]*(#{1,6}))[^#\n][\t ]*\\S')
-    L_HEADING_PATTERN = re.compile('^^([\t ]*\n)[ \t]*[^\n]*[^\n \t][^\n]*\n[\t ]*(=|-)+[\t ]*\n')
+    def __init__(self):
+        self._headers_found = []
 
     def find_headers(self, text):
-        text = '\n' + text + '\n'
-        headers = []
-        chars_remover = CharsRemover(text)
-        while chars_remover.has_chars():
-            current_header = self._get_header(chars_remover.current_text(), chars_remover.get_offset() - 1)
-            if current_header is None:
-                chars_remover.remove_first_line()
-            else:
-                headers.append(current_header)
-                chars_remover.remove_first_line()
-        return headers
+        self._headers_found = []
+        markdown = mistune.create_markdown(renderer="ast")
+        new_text, state = markdown.before_parse(text, {})
+        markdown.block.SETEX_HEADING = re.compile(r'([^\n]+)\n *(=|-){1,}[ \t]*\n+')
+        markdown.block.parse_axt_heading = self.decorate_parse_axt_heading(markdown.block.parse_axt_heading)
+        markdown.block.parse_setex_heading = self.decorate_parse_setex_heading(markdown.block.parse_setex_heading)
+        markdown.block.parse(new_text, state)
+        return new_text, self._headers_found
 
-    def _get_match(self, text):
-        for p in (HeadersFinder.HEADING_PATTERN, HeadersFinder.L_HEADING_PATTERN):
-            if p.match(text):
-                return p.match(text)
+    def decorate_parse_axt_heading(self, parse_heading_func):
+        @functools.wraps(parse_heading_func)
+        def wrapper(m, state):
+            level = len(m.group(1))
+            self._headers_found.append(header.Header(m.regs[1][0] + level, level))
+            return parse_heading_func(m, state)
 
-    def _get_level(self, group2):
-        if '#' in group2:
-            return len(group2)
-        else:
-            return {'-': 2, '=': 1}[group2]
+        return wrapper
 
-    def _get_header(self, text, base_offset):
-        m = self._get_match(text)
-        if m:
-            header_offset = len(m.group(1))
-            level = self._get_level(m.group(2))
-            return header.Header(base_offset + header_offset, level)
+    def decorate_parse_setex_heading(self, parse_heading_func):
+        @functools.wraps(parse_heading_func)
+        def wrapper(m, state):
+            level = 1 if m.group(2) == '=' else 2
+            self._headers_found.append(header.Header(m.start(), level))
+            return parse_heading_func(m, state)
 
-
+        return wrapper

@@ -20,3 +20,17 @@ Requires python 3.
 pip install enumerate-markdown
 ```
 
+## 1.3 Assumed markdown syntax:
+
+The markdown syntax assumed is the one used by mistune, called "Sane CommonMark"
+
+https://mistune.readthedocs.io/en/latest/intro.html#sane-commonmark
+
+But, with a fine twist: headings defined by a single `-` or single `=` are considered too.  For example:
+
+```markdown
+This is a heading
+-
+This is also a heading
+=
+``` 

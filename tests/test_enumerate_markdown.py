@@ -1,4 +1,5 @@
 import unittest
+
 from enumerate_markdown import enumerate_markdown, header
 
 
@@ -7,7 +8,7 @@ class MyHeadersFinder(object):
         self._headers = headers
 
     def find_headers(self, text):
-        return self._headers
+        return text, self._headers
 
 
 class MyEnumerator(object):
