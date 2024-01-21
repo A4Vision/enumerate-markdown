@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/a4vision/enumerate-markdown",
     packages=[p for p in setuptools.find_packages() if p != 'tests'],
     install_requires=[
-        "mistune>=2.0",
+        "mistune==2.0",
     ],
     classifiers=(
         "Programming Language :: Python :: 3",
